@@ -2,16 +2,14 @@ var y, pi, i, p, rr, rn;
 varexo e;
 parameters beta, gamma, sigma, kappa, r, rho, lambda;
 
-% Program execution parameters
-
-% MODEL PARAMETERS 
+% PARAMETERS 
   beta    = 1/1.005;                % quarterly time discount factor 
-  gamma   = 0.9;                      % indexation to past inflation
+  gamma   = 0;                      % indexation to past inflation
   sigma   = 2;                      % relative risk aversion 
   kappa   = 0.024;                  % slope of the Phillips curve 
   lambda  = 0.003;                  % weight on output gap in loss function
   
-% EXOGENOUS SHOCK PROCESS: NATURAL REAL RATE
+% NATURAL REAL RATE PROCESS
   r   = 100*(1/beta-1);             % steady-state (quarterly x 100)  
   rho = 0.95;                       % persistence
 
@@ -23,7 +21,7 @@ pi = p - p(-1);
 rn = r + rho*(rn(-1)-r) + e;
 end;
 
-planner_objective pi^2 + lambda*y^2; 
+planner_objective pi^2 + lambda*y^2 + lambda*(i-rn)^2; 
 
 ramsey_model(planner_discount=1/1.005);
 
